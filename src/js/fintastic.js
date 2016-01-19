@@ -4,10 +4,18 @@ var fintastic = (function(window) {
 	//var public = "public";
 	var canvas = null;
 	var context = null;
+	var canvas_width = null;
+	var canvas_height = null;
 	var scale = 15;
+
+	function _setScale(_scale) {
+		scale = _scale;
+	}
 
 	function setContext(id) {
 		canvas = window.document.getElementById(id);
+		canvas_width = canvas.width;
+		canvas_height = canvas.height;
 		context = canvas.getContext("2d");
 	}
 
@@ -24,14 +32,14 @@ var fintastic = (function(window) {
 		context.stroke();
 	}
 
-	function drawCandle(array) {
+	function drawCandle(array, _x, _y) {
 
 		var o = array[0];
 		var h = array[1];
 		var l = array[2];
 		var c = array[3];
-		var x = array[4];
-		var y = array[5];
+		var x = _x;
+		var y = _y;
 
 		var height = null;
 		var upBar = false;
@@ -89,9 +97,31 @@ var fintastic = (function(window) {
 
 	function drawCandleChart(array) {
 
+		var points = array.length;
+
+		//_setScale(5);
+
+		_setScale(10);
+
+		var range = [];
+
+		for (x = 0; x < array.length; x++) {
+			range.push([array[x][0]]);
+			range.push([array[x][1]]);
+			range.push([array[x][2]]);
+			range.push([array[x][3]]);
+		}
+
+		var max = Math.max.apply(Math, range);
+		var min = Math.min.apply(Math, range);
+		console.log(max);
+		console.log(min);
+		console.log(canvas_height/(max-min));
+
+		x_increment = canvas_width/array.length;
 		for (x = 0; x < array.length; x++) {
 
-			drawCandle(array[x]);
+			drawCandle(array[x], ((x)*x_increment), canvas_height- ((array[x][2]) / max)*canvas_height );
 		}
 
 	}
@@ -109,12 +139,18 @@ var fintastic = (function(window) {
 fintastic.setContext("canvas");
 fintastic.drawAxis();
 price_data = [
-	[100, 105, 92, 95, 50, 200],
-	[100, 105, 92, 95, 80, 200],
-	[100, 105, 92, 95, 110, 200],
-	[100, 105, 92, 95, 140, 200],
-	[100, 105, 92, 95, 170, 200],
-	[100, 105, 92, 95, 200, 200],
+	[100, 105, 92, 95],
+	[100, 105, 92, 95],
+	[95, 105, 92, 95],
+	[85, 88, 78, 87],
+	[35, 44, 28, 43],
+	[25, 27, 19, 23],
+	[45, 54, 38, 49],
+	[55, 64, 54, 58],
+	[55, 55, 54, 55],
+	[85, 90, 75, 79],
+	[100, 105, 92, 95],
+	[155, 185, 100, 176]
 
 ];
 fintastic.drawChart(price_data);
