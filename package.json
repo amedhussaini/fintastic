@@ -1,0 +1,22 @@
+{
+  "name": "fintastic",
+  "version": "1.0.0",
+  "description": "a canvas based approach to financial charts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amedhussaini/fintastic.git"
+  },
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amedhussaini/fintastic/issues"
+  },
+  "homepage": "https://github.com/amedhussaini/fintastic#readme",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-latest": "^6.16.0"
+  }
+}
