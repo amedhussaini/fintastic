@@ -4,61 +4,41 @@ class Fintastic {
 		this.canvasWidth = this.canvas.width;
 		this.canvasHeight = this.canvas.height;
 		this.context = this.canvas.getContext("2d");
-		//this.createBorder();
+		this.scale = 15;
+		this.priceData = null;
+		this.createBorder();
 		this.createAxis();
+		//this.drawCandleChart();
 	}
 
-
+	setData(priceData) {
+		this.priceData = priceData;
+	}
 
 	createAxis() {
-		this.context.lineWidth = 1;
+		let borderPadding = 10;
+		let lineWidth = 3;
+
+		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = "black";
-		this.context.moveTo(0, canvas.height - 10);
-		this.context.lineTo(canvas.width, canvas.height - 10);
+		this.context.moveTo(0, canvas.height - borderPadding);
+		this.context.lineTo(canvas.width, canvas.height - borderPadding);
 		this.context.stroke();
-		this.context.lineWidth = 1;
+		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = "black";
-		this.context.moveTo(canvas.width - 10, 0);
-		this.context.lineTo(canvas.width - 10, canvas.height);
+		this.context.moveTo(canvas.width - borderPadding, 0);
+		this.context.lineTo(canvas.width - borderPadding, canvas.height);
 		this.context.stroke();
 	}
-}
-/*
-var fintastic = (function(window) {
 
-	//var privateVar = "private";
-	//var public = "public";
-	var canvas = null;
-	var context = null;
-	var canvas_width = null;
-	var canvas_height = null;
-	var scale = 15;
-
-	function _setScale(_scale) {
-		scale = _scale;
+	createBorder() {
+		const lineWidth = 1;
+		this.context.lineWidth = lineWidth;
+		this.context.strokeStyle = "black";
+		this.context.strokeRect(0,0,canvas.width,canvas.height);
 	}
 
-	function setContext(id) {
-		canvas = window.document.getElementById(id);
-		canvas_width = canvas.width;
-		canvas_height = canvas.height;
-		context = canvas.getContext("2d");
-	}
-
-	function drawAxis() {
-		context.lineWidth = 1;
-		context.strokeStyle = "black";
-		context.moveTo(0, canvas.height - 10);
-		context.lineTo(canvas.width, canvas.height - 10);
-		context.stroke();
-		context.lineWidth = 1;
-		context.strokeStyle = "black";
-		context.moveTo(canvas.width - 10, 0);
-		context.lineTo(canvas.width - 10, canvas.height);
-		context.stroke();
-	}
-
-	function drawCandle(array, _x, _y) {
+	drawCandle(array, _x, _y) {
 
 		var o = array[0];
 		var h = array[1];
@@ -69,7 +49,7 @@ var fintastic = (function(window) {
 
 		var height = null;
 		var upBar = false;
-		var barWidth = 1.2*scale;
+		var barWidth = 1.2*this.scale;
 		var topWick = null;
 		var bottomWick = null;
 
@@ -86,52 +66,50 @@ var fintastic = (function(window) {
 
 		}
 
-		context.beginPath();
+		this.context.beginPath();
 
-		context.rect(x, y, 1.2*scale, height*scale);
+		this.context.rect(x, y, 1.2*this.scale, height*this.scale);
 		if (upBar) {
-			console.log("im reallyt here");
-			context.fillStyle = "#8ED6FF";
-       	} else {
-       		console.log("im here");
-			context.fillStyle = "red";
-       	}
-		context.fill();
-		context.lineWidth = 2;
-		context.strokeStyle = "#000";
+			this.context.fillStyle = "#8ED6FF";
+				} else {
+			this.context.fillStyle = "red";
+				}
+		this.context.fill();
+		this.context.lineWidth = 2;
+		this.context.strokeStyle = "#000";
 
 
 		// draw wick
 
-		context.lineWidth = 1;
-		context.strokeStyle = "black";
+		this.context.lineWidth = 1;
+		this.context.strokeStyle = "black";
 
-		context.moveTo(x+(barWidth/2), y);
+		this.context.moveTo(x+(barWidth/2), y);
 		if (upBar) {
-			context.moveTo(x+(barWidth/2), (y+height*scale));
-			context.lineTo(x+(barWidth/2), (y+height*scale)-topWick*scale);
+			this.context.moveTo(x+(barWidth/2), (y+height*this.scale));
+			this.context.lineTo(x+(barWidth/2), (y+height*this.scale)-topWick*this.scale);
 		} else {
-			context.moveTo(x+(barWidth/2), y);
-			context.lineTo(x+(barWidth/2), y-topWick*scale);
+			this.context.moveTo(x+(barWidth/2), y);
+			this.context.lineTo(x+(barWidth/2), y-topWick*this.scale);
 		}
 
-		context.stroke();
+		this.context.stroke();
 
-		context.closePath();
+		this.context.closePath();
 
 	}
 
-	function drawCandleChart(array) {
 
+	drawCandleChart() {
+		let array = this.priceData;
 		var points = array.length;
 
 		//_setScale(5);
-
-		_setScale(10);
+		this.setScale(10);
 
 		var range = [];
 
-		for (x = 0; x < array.length; x++) {
+		for (let x = 0; x < array.length; x++) {
 			range.push([array[x][0]]);
 			range.push([array[x][1]]);
 			range.push([array[x][2]]);
@@ -140,48 +118,18 @@ var fintastic = (function(window) {
 
 		var max = Math.max.apply(Math, range);
 		var min = Math.min.apply(Math, range);
-		console.log(max);
-		console.log(min);
-		console.log(canvas_height/(max-min));
 
-		x_increment = canvas_width/array.length;
-		for (x = 0; x < array.length; x++) {
 
-			drawCandle(array[x], ((x)*x_increment), canvas_height- ((array[x][2]) / max)*canvas_height );
+		let x_increment = this.canvas.width/array.length;
+		for (let x = 0; x < array.length; x++) {
+
+			this.drawCandle(array[x], ((x)*x_increment), this.canvas.height- ((array[x][2]) / max)*this.canvas.height );
 		}
 
 	}
 
-	return {
-		setContext: setContext,
-		drawAxis: drawAxis,
-		drawCandle: drawCandle,
-		drawChart: drawCandleChart
-	};
+	setScale(_scale) {
+		this.scale = _scale;
+	}
 
-
-})(window);
-
-fintastic.setContext("canvas");
-fintastic.drawAxis();
-price_data = [
-	[100, 105, 92, 95],
-	[100, 105, 92, 95],
-	[95, 105, 92, 95],
-	[85, 88, 78, 87],
-	[35, 44, 28, 43],
-	[25, 27, 19, 23],
-	[45, 54, 38, 49],
-	[55, 64, 54, 58],
-	[55, 55, 54, 55],
-	[85, 90, 75, 79],
-	[100, 105, 92, 95],
-	[155, 185, 100, 176]
-
-];
-fintastic.drawChart(price_data);
-//fintastic.drawCandle(100, 105, 92, 95, 50, 200);
-//fintastic.drawCandle(100, 105, 92, 104, 80, 200);
-//fintastic.drawCandle(100, 105, 92, 104, 110, 200);
-//fintastic.drawCandle(94, 125, 75, 125, 140, 250);
-*/
+}

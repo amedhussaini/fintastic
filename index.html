@@ -1,17 +1,30 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+  <script src="lib/js/fintastic.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas" width="640" height="480"></canvas>
+    <script>
+    var price_data = [
+    	[100, 105, 92, 95],
+    	[100, 105, 92, 95],
+    	[95, 105, 92, 95],
+    	[85, 88, 78, 87],
+    	[35, 44, 28, 43],
+    	[25, 27, 19, 23],
+    	[45, 54, 38, 49],
+    	[55, 64, 54, 58],
+    	[55, 55, 54, 55],
+    	[85, 90, 75, 79],
+    	[100, 105, 92, 95],
+    	[155, 185, 100, 176]
 
-<script src="lib/js/fintastic.js"></script>
-</head>
-<body>
-<canvas id="canvas" width="300" height="300"></canvas>
-
-<script>
-
-let fintastic = new Fintastic("canvas", window);
-
-</script>
-</body>
+    ];
+      let fintastic = new Fintastic("canvas", window);
+      fintastic.setData(price_data);
+      fintastic.drawCandleChart()
+    </script>
+  </body>
 </html>
