@@ -1,4 +1,5 @@
 class Fintastic {
+
 	constructor(canvasId, windowContext) {
 		this.canvas = windowContext.document.getElementById(canvasId);
 		this.canvasWidth = this.canvas.width;
@@ -8,7 +9,7 @@ class Fintastic {
 		this.priceData = null;
 		this.createBorder();
 		this.createAxis();
-		//this.drawCandleChart();
+
 	}
 
 	setData(priceData) {
@@ -16,8 +17,8 @@ class Fintastic {
 	}
 
 	createAxis() {
-		let borderPadding = 10;
-		let lineWidth = 3;
+		const borderPadding = 10;
+		const lineWidth = 3;
 
 		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = "black";
@@ -33,6 +34,7 @@ class Fintastic {
 
 	createBorder() {
 		const lineWidth = 1;
+
 		this.context.lineWidth = lineWidth;
 		this.context.strokeStyle = "black";
 		this.context.strokeRect(0,0,canvas.width,canvas.height);
@@ -40,18 +42,18 @@ class Fintastic {
 
 	drawCandle(array, _x, _y) {
 
-		var o = array[0];
-		var h = array[1];
-		var l = array[2];
-		var c = array[3];
-		var x = _x;
-		var y = _y;
+		let o = array[0];
+		let h = array[1];
+		let l = array[2];
+		let c = array[3];
+		let x = _x;
+		let y = _y;
 
-		var height = null;
-		var upBar = false;
-		var barWidth = 1.2*this.scale;
-		var topWick = null;
-		var bottomWick = null;
+		let height = null;
+		let upBar = false;
+		let barWidth = 1.2*this.scale;
+		let topWick = null;
+		let bottomWick = null;
 
 		if (o > c) {
 
@@ -100,30 +102,29 @@ class Fintastic {
 	}
 
 
-	drawCandleChart() {
-		let array = this.priceData;
-		var points = array.length;
+	drawCandleChart(priceData) {
+		this.setData(priceData);
+		var points = this.priceData.length;
 
-		//_setScale(5);
-		this.setScale(10);
+		this.setScale(15);
 
 		var range = [];
 
-		for (let x = 0; x < array.length; x++) {
-			range.push([array[x][0]]);
-			range.push([array[x][1]]);
-			range.push([array[x][2]]);
-			range.push([array[x][3]]);
+		for (let x = 0; x < this.priceData.length; x++) {
+			range.push([this.priceData[x][0]]);
+			range.push([this.priceData[x][1]]);
+			range.push([this.priceData[x][2]]);
+			range.push([this.priceData[x][3]]);
 		}
 
 		var max = Math.max.apply(Math, range);
 		var min = Math.min.apply(Math, range);
 
 
-		let x_increment = this.canvas.width/array.length;
-		for (let x = 0; x < array.length; x++) {
+		let x_increment = this.canvas.width/this.priceData.length;
+		for (let x = 0; x < this.priceData.length; x++) {
 
-			this.drawCandle(array[x], ((x)*x_increment), this.canvas.height- ((array[x][2]) / max)*this.canvas.height );
+			this.drawCandle(this.priceData[x], ((x)*x_increment), this.canvas.height- ((this.priceData[x][2]) / max)*this.canvas.height );
 		}
 
 	}
