@@ -7,13 +7,23 @@
   <body>
     <canvas id="canvas" width="640" height="480"></canvas>
     <script>
+    /*
       var price_data = [
+        [40, 50, 35, 45],
+        [40, 44, 39, 43],
+        [40, 41, 30, 35],
+        [40, 50, 35, 45],
+        [40, 44, 39, 43],
+        [40, 41, 30, 35],
         [40, 50, 35, 45],
         [40, 44, 39, 43],
         [40, 41, 30, 35]
       ];
-
-      let fintastic = new Fintastic("canvas", window, { data: price_data });
+      */
+      var price_data = [25, 26, 29, 45, 24, 19, 15];
+      
+      let fintastic = new Fintastic("canvas", window, { type: "point",
+                                                        data: price_data });
     </script>
   </body>
 </html>
