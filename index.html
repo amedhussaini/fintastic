@@ -20,10 +20,16 @@
         [40, 41, 30, 35]
       ];
       */
-      var price_data = [25, 26, 29, 45, 24, 19, 15];
-      
+      var price_data = [10, 12, 14, 16, 20, 18, 14, 9, 14, 15];
+
       let fintastic = new Fintastic("canvas", window, { type: "point",
                                                         data: price_data });
+      //console.log(fintastic.convertX(0));
+      //fintastic.drawPoint("square", fintastic.convertX(0), fintastic.convertY(19));
+      //fintastic.drawPoint("square", fintastic.convertX(1), fintastic.convertY(20));
+      //fintastic.drawPoint("square", fintastic.convertX(1), fintastic.convertY(20));
+      //fintastic.drawPoint("square", fintastic.convertX(1), fintastic.convertY(1));
+      fintastic.draw();
     </script>
   </body>
 </html>

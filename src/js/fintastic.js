@@ -13,9 +13,6 @@ class Fintastic {
 		this.createAxis();
 		this.setRange();
 		this.createGrid();
-		console.log(this.priceMax);
-		console.log(this.priceMin);
-
 	}
 
 	setRange() {
@@ -47,8 +44,8 @@ class Fintastic {
 	}
 
 	createGrid() {
-		let piecesOfData = this.priceData.length
-		var spacing = (this.canvasWidth - 10) / piecesOfData;
+		let verticalGrid = this.priceData.length
+		var spacing = (this.canvasWidth - 10) / verticalGrid;
 
 		for (let x = 0; x < this.priceData.length; x++) {
 			let increment = x+1;
@@ -103,6 +100,46 @@ class Fintastic {
 		this.ctx.strokeStyle = "black";
 		this.ctx.strokeRect(0,0,canvas.width,canvas.height);
 		this.ctx.closePath();
+	}
+
+	convertX(index) {
+		let idx = index;
+		// look at grid code
+		let verticalGrid = this.priceData.length
+		let verticalSpacing = (this.canvasWidth - 10) / verticalGrid;
+		return verticalSpacing * idx;
+	}
+	convertY(value) {
+		let newValue = Math.abs(value - this.priceMax)
+		//let idx = index + 1;
+		let horizontalGrid = (this.priceMax - this.priceMin) + 1;
+		let horizontalSpacing = (this.canvasHeight - 10) / horizontalGrid;
+		console.log(horizontalSpacing * newValue);
+		return horizontalSpacing * newValue;
+	}
+
+	drawPoint(type, x, y) {
+		switch (type) {
+			case "square":
+					this.ctx.fillRect(x-(15/2), y-(15/2), 15, 15);
+				break;
+			default:
+		}
+	}
+
+	draw() {
+		switch (this.opts.type) {
+			case "point":
+				this.priceData.forEach((value, index) => {
+					this.drawPoint("square", fintastic.convertX(index), fintastic.convertY(value));
+				});
+				break;
+			case "candle":
+
+				break;
+			default:
+
+		}
 	}
 
 }
